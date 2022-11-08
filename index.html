@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Assignment - 4</title>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Welcome!</h1>
+        <h2>Test your luck with the best lottery in the world!</h2>
+    </div>
+    <div class="form">
+        <label for="name">Name : </label>
+        <input id="name" placeholder="Enter your name" required><br>
+        <label for="mobile">Ph.no : </label>
+        <input id="mobile" placeholder="Enter your phone number" required><br>
+    </div>
+    <div class="buttons">
+        <button id="showAvailable" onclick="showAvailable()">Show Available
+            Numbers</button>
+        <button id="hideAvailable" onclick="hideAvailable()">Hide Available
+            Numbers</button><br><br>
+    </div>
+    <div class="numbers" id="numbers">
+
+    </div>
+    <div class="done"><button id="done" onclick="done()">Done</button></div>
+    <div id="admin"><button onclick="admin()">Log In as an
+            Admin to view data</button><br><br>
+        <input type="password" id="pass">
+        <button onclick="showData()" id="login">Log in</button>
+    </div>
+    <div id="data"></div>
+</body>
+
+<script>
+    let availableNum = new Array;
+    let numTaken = new Array;
+    for (let i = 0; i < 1000; i++) {
+        availableNum[i] = i + `<input type='checkbox' value='${i}' id='${i}' />`;
+    }
+    let lengthOfAvailableNum = 1000;
+    class luckTester {
+        constructor(name, mobile) {
+            this.name = name;
+            this.mobile = mobile;
+        }
+        array = [];
+
+    }
+    let array = new Array;
+    let array2 = new Array;
+    let array3 = new Array;
+    let check = new Array;
+    let count = 0;
+    let count2 = 0;
+    let count3 = 0;
+    let person = new Array;
+    let personCount = 0;
+    function showAvailable() {
+        let x = document.getElementById('numbers');
+        x.innerHTML = availableNum;
+        if (x.style.display = 'none') {
+            x.style.display = 'block';
+        }
+    }
+    function hideAvailable() {
+        let y = document.getElementById('numbers');
+        y.style.display = 'none';
+    }
+    function admin() {
+        document.getElementById('pass').style.display = 'inline-block';
+        document.getElementById('login').style.display = 'inline-block';
+    }
+    function showData() {
+        let password = document.getElementById('pass').value;
+        if (password == 'admin123') {
+            document.getElementById('data').innerHTML = "All data are being shown in console";
+            console.log(person);
+        } else {
+            document.getElementById('data').innerHTML = "Your password is incorrect!";
+        }
+    }
+    function done() {
+        let name = document.getElementById('name').value;
+        let mobile = document.getElementById('mobile').value;
+        if (person[personCount] == undefined) {
+            person[personCount] = new luckTester(name, mobile);
+            for (let i = 0; i < lengthOfAvailableNum; i++) {
+                check[i] = document.getElementById(i);
+                if (check[i].checked == true) {
+                    array[count] = check[i].value;
+                    count++;
+                    availableNum[i] = "Taken Number" + `<input type='checkbox' disabled value='${i}' id='${i}' />`;
+
+                }
+                person[personCount].array = array;
+            }
+        } else {
+            if (name == person[personCount].name && mobile == person[personCount].mobile) {
+                for (let i = 0; i < lengthOfAvailableNum; i++) {
+                    check[i] = document.getElementById(i);
+                    if (check[i].checked == true) {
+                        array2[count2] = check[i].value;
+                        count2++;
+                        availableNum[i] = "Taken Number" + `<input type='checkbox' disabled value='${i}' id='${i}' />`;
+                    }
+                }
+                person[personCount].array = array + "," + array2;
+            } else {
+                personCount++;
+                person[personCount] = new luckTester(name, mobile);
+                for (let i = 0; i < lengthOfAvailableNum; i++) {
+                    check[i] = document.getElementById(i);
+                    if (check[i].checked == true) {
+                        array3[count3] = check[i].value;
+                        count3++;
+                        availableNum[i] = "Taken Number" + `<input type='checkbox' disabled value='${i}' id='${i}' />`;
+                    }
+                }
+                person[personCount].array = array3;
+                array = array3;
+                array2 = [];
+                count2 = 0;
+                array3 = [];
+                count3 = 0;
+            }
+        }
+        document.getElementById('numbers').innerHTML = availableNum;
+        alert(`Name : ${person[personCount].name} , Ph.no : ${person[personCount].mobile} , Chosen Numbers : ${person[personCount].array}`);
+    }
+</script>
+
+</html>
